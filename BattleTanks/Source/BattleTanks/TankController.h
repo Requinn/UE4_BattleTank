@@ -14,9 +14,18 @@ class BATTLETANKS_API ATankController : public APlayerController
 {
 	GENERATED_BODY()
 		
-public:
+private:
+	UPROPERTY(EditAnywhere)
+	float CrossHairX = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float CrossHairY = 0.3333f;
+	UPROPERTY()
+	float LineTraceRange = 10000000;
 	ATank* GetControlledTank() const;
-
+	//return an OUT parameter, true if it hits a landscape
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 	//moves barrel to aim towards the crosshair is
 	void AimTowardsCrosshair();
 
