@@ -15,7 +15,7 @@ class BATTLETANKS_API ATankAIController : public AAIController
 public:
 	GENERATED_BODY()
 	
-public:
+private:
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
 	

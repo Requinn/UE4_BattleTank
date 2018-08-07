@@ -32,7 +32,7 @@ void ATankController::AimTowardsCrosshair() {
 
 	FVector HitLocation; //out param
 	if (GetSightRayHitLocation(HitLocation)) {
-		UE_LOG(LogTemp, Warning, TEXT("Lookin at %s"), *HitLocation.ToString());
+		GetControlledTank()->AimAt(HitLocation);
 	}
 	//get world location through a linecast through the point on the screen
 	//if the line cast hits the world, aim towards that point
