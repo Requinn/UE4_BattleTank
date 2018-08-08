@@ -2,6 +2,7 @@
 
 #include "BattleTanks.h"
 #include "TankBarrel.h" //this is needed when we need to call methods in the barrel, where the forward declaration is not enough
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -17,6 +18,10 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
+	Turret = TurretToSet;
 }
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
@@ -66,4 +71,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection) {
 	auto AimRotation = AimDirection.Rotation();
 	auto DeltaRotation = AimRotation - BarrelRotation;
 	Barrel->Elevate(DeltaRotation.Pitch);
+	Turret->Rotate(DeltaRotation.Yaw);
 }
