@@ -47,7 +47,7 @@ void UTankAimingComponent::AimAt(FVector AimLocation, float LaunchSpeed) {
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectilePoint"));
 
 	//use this function to generate a suggested projectile velocity for it to hit somepoint with X force
-	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace)) {
+	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, StartLocation, AimLocation, LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace)) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto TankName = GetOwner()->GetName();
 		MoveBarrelTowards(AimDirection);
