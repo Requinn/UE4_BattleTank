@@ -11,18 +11,22 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet) {
-	Barrel = BarrelToSet;
+	if (BarrelToSet) {
+		Barrel = BarrelToSet;
+	}
 }
 
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet) {
-	Turret = TurretToSet;
+	if (TurretToSet) {
+		Turret = TurretToSet;
+	}
 }
+
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
@@ -32,14 +36,6 @@ void UTankAimingComponent::BeginPlay()
 	
 }
 
-
-// Called every frame
-void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-	// ...
-}
 
 
 //given a location and launch speed, calculate where we are aiming at

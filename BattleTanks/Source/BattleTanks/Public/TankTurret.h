@@ -18,7 +18,7 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float RotationalSpeed;
+	float RotationalSpeed = 50;
 	
 	
 	
