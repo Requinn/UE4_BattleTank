@@ -8,7 +8,7 @@
 /**
  * 
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent), hidecategories = ("Collision")) //allows the Tank Barrel to appear in the blueprint editor
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent)) //allows the Tank Barrel to appear in the blueprint editor
 class BATTLETANKS_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()

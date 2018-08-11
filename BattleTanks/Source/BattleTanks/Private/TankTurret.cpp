@@ -8,7 +8,6 @@ void UTankTurret::Rotate(float RelativeSpeed) {
 	auto RotationChange = RelativeSpeed * RotationalSpeed * GetWorld()->DeltaTimeSeconds;
 	auto NewRawRotation = RelativeRotation.Yaw + RotationChange;
 	SetRelativeRotation(FRotator(0, NewRawRotation, 0));
-	UE_LOG(LogTemp, Warning, TEXT("Turret: %f"), NewRawRotation);
 }
 
 

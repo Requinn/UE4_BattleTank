@@ -8,7 +8,6 @@ void UTankBarrel::Elevate(float RelativeSpeed) {
 	auto ElevationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewElevation = RelativeRotation.Pitch + ElevationChange;
 	SetRelativeRotation(FRotator(FMath::Clamp<float>(RawNewElevation, BarrelMinHeight, BarrelMaxHeight), 0, 0)); //clamp the barrel height to what we have
-	UE_LOG(LogTemp, Warning, TEXT("DPS %f"), ElevationChange);
 }
 
 
