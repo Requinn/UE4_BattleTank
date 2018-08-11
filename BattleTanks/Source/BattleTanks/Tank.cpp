@@ -17,7 +17,7 @@ ATank::ATank()
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet) {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
-	Barrel = BarrelToSet; //set this locally
+	Barrel = BarrelToSet; //save a local ref to help spawn projectiles
 }
 
 void ATank::SetTurretReference(UTankTurret* TurretToSet) {
@@ -33,10 +33,15 @@ void ATank::BeginPlay()
 
 //Fires the tank cannon
 void ATank::Fire() {
-	if (Barrel) {
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTime; //if the current time - the time we last fired is greater than the time we set to reload
+	//fire only once every X seconds
+	if (Barrel && isReloaded) {
 		//fire a projectile at the socket location
 		UE_LOG(LogTemp, Warning, TEXT("Pew"));
-		GetWorld()->SpawnActor<ATankProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("ProjectilePoint")), Barrel->GetSocketRotation(FName("ProjectilePoint")));
+		//spawn a projectileblueprint obj at the barrel's projectilpoint socket location and with its rotation
+		auto Projectile = GetWorld()->SpawnActor<ATankProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("ProjectilePoint")), Barrel->GetSocketRotation(FName("ProjectilePoint")));
+		Projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTime = FPlatformTime::Seconds();
 	}
 }
 

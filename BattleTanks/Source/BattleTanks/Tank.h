@@ -21,11 +21,12 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category = TankAction)
+	void Fire();
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
-	UFUNCTION(BlueprintCallable, Category = TankAction)
-	void Fire();
+	
 
 private:
 	// Sets default values for this pawn's properties
@@ -37,12 +38,20 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+
+	//EditDefaultsOnly will modify this value on ALL Tanks, editable only in blueprints
+	//EditAnywhere will modify this value PER Tank
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTime = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 100000; //1 km/s
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<ATankProjectile> ProjectileBlueprint;
 
 	UTankBarrel* Barrel = nullptr; //local barrel ref to spawn the projectile
+	
+	double LastFireTime = 0;
 	
 };

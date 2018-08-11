@@ -16,9 +16,9 @@ class BATTLETANKS_API ATankController : public APlayerController
 	GENERATED_BODY()
 		
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairX = 0.5f;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrossHairY = 0.3333f;
 	UPROPERTY()
 	float LineTraceRange = 10000000;
