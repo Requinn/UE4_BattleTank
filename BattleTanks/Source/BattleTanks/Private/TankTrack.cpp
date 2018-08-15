@@ -4,8 +4,8 @@
 #include "TankTrack.h"
 
 void UTankTrack::SetThrottle(float Throttle) {
-	Throttle = FMath::Clamp<float>(Throttle, 0, 1);
-	UE_LOG(LogTemp, Warning, TEXT("%f"), Throttle);
+	Throttle = FMath::Clamp<float>(Throttle, -1, 1);
+	
 
 	FVector ForceApplied = GetForwardVector() * Throttle * TankMaxDrivingForce; //calculate the force we apply
 	FVector ForceLocation = GetComponentLocation();	//get where we apply it
