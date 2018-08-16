@@ -23,6 +23,8 @@ public:
 	void Initialize(UTankTrack* LeftToSet, UTankTrack* RightToSet);
 	UFUNCTION(BlueprintCallable, Category = TankMovement)
 	void IntendTurnRight(float Rotation);
+
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 private:
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;

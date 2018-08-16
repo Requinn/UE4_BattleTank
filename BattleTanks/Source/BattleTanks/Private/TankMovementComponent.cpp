@@ -22,4 +22,8 @@ void UTankMovementComponent::IntendTurnRight(float Rotation) {
 	RightTrack->SetThrottle(-Rotation); //right moves back
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {
+	UE_LOG(LogTemp, Warning, TEXT("%s MoveRequest: %s"), *GetOwner()->GetName(), *MoveVelocity.ToString())
+}
+
 
