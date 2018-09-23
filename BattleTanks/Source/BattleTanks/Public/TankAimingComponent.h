@@ -8,6 +8,10 @@
 //A forward declaration, allowing us to get a reference to this class without doing an include
 class UTankBarrel; //hold properties for barrel 
 class UTankTurret;
+class ATankProjectile;
+
+UENUM()
+enum class EFiringStatus : uint8 { Ready, Aiming, Reloading };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKS_API UTankAimingComponent : public UActorComponent
@@ -17,15 +21,33 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-	void SetTurretReference(UTankTurret* TurretToSet);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Initialize(UTankBarrel* barrelToSet, UTankTurret* turretToSet);
+	UFUNCTION(BlueprintCallable, Category = TankAction)
+	void Fire();
 	//aim at something
-	void AimAt(FVector AimLocation, float LaunchSpeed);
+	void AimAt(FVector AimLocation);
 	void MoveBarrelTowards(FVector AimDirection);
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 100000; //1 km/s
+protected:
+	UPROPERTY(BlueprintReadOnly, Category = State)
+	EFiringStatus FireStatus = EFiringStatus::Aiming;
+
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	//EditDefaultsOnly will modify this value on ALL Tanks, editable only in blueprints
+	//EditAnywhere will modify this value PER Tank
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTime = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	TSubclassOf<ATankProjectile> ProjectileBlueprint;
+
+	double LastFireTime = 0;
+
 };

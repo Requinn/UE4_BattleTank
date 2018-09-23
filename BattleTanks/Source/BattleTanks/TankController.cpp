@@ -1,25 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTanks.h"
+#include "TankAimingComponent.h"
 #include "TankController.h"
-#include "Tank.h"
 
 void ATankController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	auto ControlledTank = GetControlledTank();
-	if (ControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("POESSESING: %s"), *ControlledTank->GetName());
+	AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if(AimingComponent){
+		FoundAimingComponent(AimingComponent);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("NO TANK FOUND"));
+		UE_LOG(LogTemp, Warning, TEXT("NO AIM COMPONENT FOUND"));
 	}
-}
-
-//get the tank that we are controlling
-ATank* ATankController::GetControlledTank() const {
-	return Cast<ATank>(GetPawn());
 }
 
 void ATankController::Tick(float DeltaTime) {
@@ -28,11 +22,10 @@ void ATankController::Tick(float DeltaTime) {
 }
 
 void ATankController::AimTowardsCrosshair() {
-	if (!GetControlledTank()) { return; } //exit if we don't exist
-
+	if (!GetPawn()) { return; }
 	FVector HitLocation; //out param
 	if (GetSightRayHitLocation(HitLocation)) {
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 	}
 	//get world location through a linecast through the point on the screen
 	//if the line cast hits the world, aim towards that point

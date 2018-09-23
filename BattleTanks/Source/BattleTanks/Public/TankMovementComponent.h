@@ -24,8 +24,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = TankMovement)
 	void IntendTurnRight(float Rotation);
 
-	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 private:
+	//Called from pathfinding logic inside AIController
+	void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 	UTankTrack* LeftTrack = nullptr;
 	UTankTrack* RightTrack = nullptr;
 	

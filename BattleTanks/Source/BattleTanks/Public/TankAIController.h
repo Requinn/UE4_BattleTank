@@ -5,7 +5,7 @@
 #include "AIController.h"
 #include "TankAIController.generated.h"
 
-class ATank;
+class UTankAimingComponent;
 /**
  * 
  */
@@ -20,5 +20,4 @@ private:
 	virtual void BeginPlay() override;
 	//how close can the tank get to the player
 	float AcceptanceRadius = 30;
-	
 };
