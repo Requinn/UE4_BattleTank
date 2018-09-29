@@ -20,5 +20,12 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	float TankMaxDrivingForce = 400000; //F = MA, 40T tank at 1G acceleration
 	
-	
+private:
+	UTankTrack();
+	virtual void BeginPlay() override;
+	void ApplySidewaysForce();
+	void DriveTrack();
+	float CurrentThrottle = 0;
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };

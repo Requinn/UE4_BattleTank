@@ -47,10 +47,10 @@ bool ATankController::GetSightRayHitLocation(FVector& OutHitLocation) const {
 	//get the direction we are looking at by deprojecting our screen point to the world
 	if (GetLookDirection(ScreenLocation, CameraLookDirection)) {
 		//use the CamaeraLookDirection OUT param as a input to tell the direction of our linetrace
-		GetLookVectorHitLocation(CameraLookDirection, OutHitLocation);
+		return GetLookVectorHitLocation(CameraLookDirection, OutHitLocation);
 	}
 	
-	return true;
+	return false;
 	
 }
 

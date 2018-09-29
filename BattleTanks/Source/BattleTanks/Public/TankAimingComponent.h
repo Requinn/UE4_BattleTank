@@ -11,7 +11,7 @@ class UTankTurret;
 class ATankProjectile;
 
 UENUM()
-enum class EFiringStatus : uint8 { Ready, Aiming, Reloading };
+enum class EFiringStatus : uint8 { Ready, Aiming, Reloading, OutofAmmo};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKS_API UTankAimingComponent : public UActorComponent
@@ -27,19 +27,28 @@ public:
 	void Fire();
 	//aim at something
 	void AimAt(FVector AimLocation);
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards(FVector Direction);
 	// Called when the game starts
 	virtual void BeginPlay() override;
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 100000; //1 km/s
+
+	EFiringStatus GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	int GetAmmoCount() const;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = State)
-	EFiringStatus FireStatus = EFiringStatus::Aiming;
+	EFiringStatus FireStatus = EFiringStatus::Reloading;
 
 private:
+	virtual void TickComponent(float DeltaTime, enum ELevelTick tickType, FActorComponentTickFunction *thisTickFunction) override;
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
 
+	FVector AimDirection;
+	bool IsBarrelMoving();
 	//EditDefaultsOnly will modify this value on ALL Tanks, editable only in blueprints
 	//EditAnywhere will modify this value PER Tank
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
@@ -49,5 +58,6 @@ private:
 	TSubclassOf<ATankProjectile> ProjectileBlueprint;
 
 	double LastFireTime = 0;
+	int ammoRemaining = 5;
 
 };
