@@ -11,8 +11,7 @@ UCLASS()
 class BATTLETANKS_API ATank : public APawn
 {
 	GENERATED_BODY()
-	// Sets default values for this pawn's properties
-	ATank();
+	virtual void BeginPlay() override;
 public:
 	virtual float TakeDamage(float damage, FDamageEvent const &damageEvent, AController* instigator, AActor* damageSource) override;
 	UFUNCTION(BlueprintPure, Category = Tank)

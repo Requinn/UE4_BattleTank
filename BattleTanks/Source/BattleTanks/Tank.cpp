@@ -2,11 +2,9 @@
 #include "BattleTanks.h"
 #include "Tank.h"
 
-
-// Sets default values
-ATank::ATank()
-{
-	
+void ATank::BeginPlay() {
+	Super::BeginPlay();
+	Health = MaxHealth;
 }
 
 float ATank::TakeDamage(float damage, FDamageEvent const & damageEvent, AController * instigator, AActor * damageSource)

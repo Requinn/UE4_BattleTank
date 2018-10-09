@@ -43,6 +43,7 @@ void ATankController::AimTowardsCrosshair() {
 }
 
 void ATankController::HandleDeath() {
+	StartSpectatingOnly();
 	UE_LOG(LogTemp, Warning, TEXT("Player Tank has died."));
 }
 
