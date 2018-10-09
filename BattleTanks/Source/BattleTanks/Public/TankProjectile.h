@@ -28,6 +28,15 @@ private:
 	UParticleSystemComponent* LaunchBlast = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = Components)
 	UParticleSystemComponent* ImpactBlast = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = Components)
+	URadialForceComponent* ExplosionForce = nullptr;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	float DestroyDelay = 3.0;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	float Damage = 10.0;
+	FTimerHandle DestroyHandle;
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	UFUNCTION()
+	void Die();
 };

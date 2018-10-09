@@ -3,6 +3,7 @@
 #include "BattleTanks.h"
 #include "TankAimingComponent.h"
 #include "TankController.h"
+#include "Tank.h" //used to get the OnDeath event
 
 void ATankController::BeginPlay()
 {
@@ -21,6 +22,16 @@ void ATankController::Tick(float DeltaTime) {
 	AimTowardsCrosshair();
 }
 
+void ATankController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankController::HandleDeath);
+	}
+}
+
 void ATankController::AimTowardsCrosshair() {
 	if (!GetPawn()) { return; }
 	FVector HitLocation; //out param
@@ -29,6 +40,10 @@ void ATankController::AimTowardsCrosshair() {
 	}
 	//get world location through a linecast through the point on the screen
 	//if the line cast hits the world, aim towards that point
+}
+
+void ATankController::HandleDeath() {
+	UE_LOG(LogTemp, Warning, TEXT("Player Tank has died."));
 }
 
 //return if we hit something, assigning the reference HitLocation parameter(out param)

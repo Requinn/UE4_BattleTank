@@ -28,6 +28,9 @@ private:
 	
 	UTankAimingComponent* AimingComponent;
 
+	UFUNCTION()
+	void HandleDeath();
+
 	//return an OUT parameter, true if it hits a landscape
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
@@ -37,7 +40,7 @@ private:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	
+	virtual void SetPawn(APawn* InPawn) override;
 	
 	
 };

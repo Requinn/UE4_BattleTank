@@ -23,6 +23,9 @@ ATankProjectile::ATankProjectile()
 	ImpactBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("ExplosionForce"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -40,8 +43,16 @@ void ATankProjectile::LaunchProjectile(float speed) {
 
 void ATankProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
+	SetRootComponent(ImpactBlast);
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
-	UE_LOG(LogTemp, Warning, TEXT("HIT"));
+	ExplosionForce->FireImpulse();
+	CollisionMesh->DestroyComponent();
+	//call radial damage within radius of static type and hit all actors.
+	UGameplayStatics::ApplyRadialDamage(this, Damage, GetActorLocation(), ExplosionForce->Radius, UDamageType::StaticClass(), TArray<AActor*>());
+	GetWorld()->GetTimerManager().SetTimer(DestroyHandle, this, &ATankProjectile::Die, DestroyDelay, false);
 }
 
+void ATankProjectile::Die() {
+	Destroy();
+}

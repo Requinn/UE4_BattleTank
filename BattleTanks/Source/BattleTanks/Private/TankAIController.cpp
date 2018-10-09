@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTanks.h"
+#include "Tank.h" //used to implement OnDeath
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
 
@@ -9,6 +10,21 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	//only do stuff when we have a inbound pawn to possess
+	if (InPawn) {
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+
+		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::HandleDeath);
+	}
+}
+
+void ATankAIController::HandleDeath() {
+	UE_LOG(LogTemp, Warning, TEXT("AI Tank has died."));
+}
 
 void ATankAIController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
