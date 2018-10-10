@@ -12,7 +12,9 @@ class BATTLETANKS_API ATank : public APawn
 {
 	GENERATED_BODY()
 	virtual void BeginPlay() override;
+
 public:
+	ATank();
 	virtual float TakeDamage(float damage, FDamageEvent const &damageEvent, AController* instigator, AActor* damageSource) override;
 	UFUNCTION(BlueprintPure, Category = Tank)
 	float GetHealthPercent() const;
@@ -23,4 +25,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Stats)
 	int32 Health = 100;
 	int32 MaxHealth = 100;
+	UPROPERTY(VisibleAnywhere, Category = Suspension)
+	UStaticMeshComponent* SuspensionRoot = nullptr;
 };

@@ -2,6 +2,10 @@
 #include "BattleTanks.h"
 #include "Tank.h"
 
+ATank::ATank() {
+
+}
+
 void ATank::BeginPlay() {
 	Super::BeginPlay();
 	Health = MaxHealth;
