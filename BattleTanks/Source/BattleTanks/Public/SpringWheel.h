@@ -25,6 +25,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Components)
 	UPhysicsConstraintComponent* SpringComponent = nullptr;
 	UPROPERTY(VisibleAnywhere, Category = Components)
+	UPhysicsConstraintComponent* AxleJoint = nullptr;
+	UPROPERTY(VisibleAnywhere, Category = Components)
 	UStaticMeshComponent* WheelComponent = nullptr;
-	
+	UPROPERTY(VisibleAnywhere, Category = Components)
+	UStaticMeshComponent* AxleComponent = nullptr;
 };

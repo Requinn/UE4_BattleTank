@@ -4,6 +4,8 @@
 #include "SpringWheel.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 
+///DON'T FORGET TO MAKE SURE YOUR MESHES FOR WHEELS AND SHIT HAVE COLLIDERS ON THEM
+
 // Sets default values
 ASpringWheel::ASpringWheel()
 {
@@ -12,15 +14,23 @@ ASpringWheel::ASpringWheel()
 	SpringComponent = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Spring"));
 	SetRootComponent(SpringComponent);
 
+	AxleComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("Axle"));
+	AxleComponent->SetupAttachment(SpringComponent);
+
 	WheelComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	WheelComponent->SetupAttachment(SpringComponent);
+	WheelComponent->SetupAttachment(AxleComponent);
+
+	AxleJoint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("AxleJoint"));
+	AxleJoint->SetupAttachment(AxleComponent);
+
 }
 
 void ASpringWheel::SetUpConstraints() {
 	if (GetAttachParentActor()) {
 		UPrimitiveComponent* Body = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
 		if (Body) {
-			SpringComponent->SetConstrainedComponents(Body, NAME_None, WheelComponent, NAME_None); //just setting the constrained objects of the PhysicsConstraintComponent
+			SpringComponent->SetConstrainedComponents(Body, NAME_None, AxleComponent, NAME_None); //just setting the constrained objects of the PhysicsConstraintComponent
+			AxleJoint->SetConstrainedComponents(AxleComponent, NAME_None, WheelComponent, NAME_None);
 		}
 	}
 }
