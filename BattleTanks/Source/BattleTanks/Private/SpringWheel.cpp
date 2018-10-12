@@ -11,6 +11,8 @@ ASpringWheel::ASpringWheel()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
+
 	SpringComponent = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Spring"));
 	SetRootComponent(SpringComponent);
 
@@ -36,7 +38,7 @@ void ASpringWheel::SetUpConstraints() {
 }
 
 void ASpringWheel::AddDrivingForce(float forceMagnitude) {
-	WheelComponent->AddForce(forceMagnitude * AxleComponent->GetForwardVector());
+	totalDriveForce += forceMagnitude; //adding forces from both of the wheels
 }
 
 // Called when the game starts or when spawned
@@ -44,11 +46,19 @@ void ASpringWheel::BeginPlay()
 {
 	Super::BeginPlay();
 	SetUpConstraints();
+	WheelComponent->OnComponentHit.AddDynamic(this, &ASpringWheel::OnHit);
 }
 
 // Called every frame
 void ASpringWheel::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+	//Check if we're in the right tickgroup
+	if (GetWorld()->TickGroup == TG_PostPhysics) {
+		totalDriveForce = 0;
+	}
+}
 
+void ASpringWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
+	WheelComponent->AddForce(totalDriveForce * AxleComponent->GetForwardVector());
 }
