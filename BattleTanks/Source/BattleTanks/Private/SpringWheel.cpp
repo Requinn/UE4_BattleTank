@@ -34,6 +34,11 @@ void ASpringWheel::SetUpConstraints() {
 		}
 	}
 }
+
+void ASpringWheel::AddDrivingForce(float forceMagnitude) {
+	WheelComponent->AddForce(forceMagnitude * AxleComponent->GetForwardVector());
+}
+
 // Called when the game starts or when spawned
 void ASpringWheel::BeginPlay()
 {

@@ -18,9 +18,12 @@ public:
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	AActor* GetSpawnedActor() const { return SpawnedActor; }
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Suspension)
 	TSubclassOf<AActor> SpawnClass; //Blueprint field so we can spawn any kind of actor
+	UPROPERTY()
+	AActor* SpawnedActor = nullptr;
 		
 	
 };

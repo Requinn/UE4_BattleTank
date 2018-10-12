@@ -20,6 +20,8 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	void AddDrivingForce(float forceMagnitude);
+
 private:
 	void SetUpConstraints();
 	UPROPERTY(VisibleAnywhere, Category = Components)

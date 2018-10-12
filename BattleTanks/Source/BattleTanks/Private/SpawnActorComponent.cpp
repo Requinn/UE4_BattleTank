@@ -19,10 +19,10 @@ void USpawnActorComponent::BeginPlay()
 	Super::BeginPlay();
 	//Because we might have a race condition of us spawning this actor, then having the actor find the parent before this sets its own parent
 	//we use SpawnActorDeferred to hold off on "finalized" creation before we are done through FinishSpawnginActor
-	auto newActor = GetWorld()->SpawnActorDeferred<AActor>(SpawnClass, GetComponentTransform());
-	if (!newActor) { return; }
-	newActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
-	UGameplayStatics::FinishSpawningActor(newActor, GetComponentTransform());
+	SpawnedActor = GetWorld()->SpawnActorDeferred<AActor>(SpawnClass, GetComponentTransform());
+	if (!SpawnedActor) { return; }
+	SpawnedActor->AttachToComponent(this, FAttachmentTransformRules::KeepWorldTransform);
+	UGameplayStatics::FinishSpawningActor(SpawnedActor, GetComponentTransform());
 	// ...
 	
 }
